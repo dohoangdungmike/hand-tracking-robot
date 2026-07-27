@@ -29,7 +29,7 @@ class Robotfinger:
         fixed_distance = ((self.base_x - self.wrist_x)**2 + (self.base_y - self.wrist_y)**2)**0.5
         return bend_distance/fixed_distance
 
-    def transformation_bend(self, distance):                                       # function use for tranforming value of distance into numbers in range 0 - 1, 
+    def transformation_bend(self, distance):                                       # Function use for tranforming value of distance into numbers in range 0 - 1, 
         normalized = (distance - self.min) / (self.max - self.min)                 # BUT EXCEED VALUE (LARGER THAN 1 AND LESS THAN 0 STILL BE RECORDED AND PUBLISHED)
         return normalized
 
