@@ -24,12 +24,13 @@ class Robotfinger:
         self.min = min_value
 
 
-    def normalize_finger_distance_bend(self):
+    def normalize_finger_distance_bend(self):                                                        # Function used for calculating bend value between each finger tip and base
+                                                                                                     # Additionally, by comparing the finger bend value with the fixed bend value of the palm, the output will be more accurate 
         bend_distance = ((self.tip_x - self.base_x)**2 + (self.tip_y - self.base_y)**2) ** 0.5
         fixed_distance = ((self.base_x - self.wrist_x)**2 + (self.base_y - self.wrist_y)**2)**0.5
         return bend_distance/fixed_distance
 
-    def transformation_bend(self, distance):                                       # Function use for tranforming value of distance into numbers in range 0 - 1, 
+    def transformation_bend(self, distance):                                       # Function used for transforming value of distance into numbers in range 0 - 1, 
         normalized = (distance - self.min) / (self.max - self.min)                 # BUT EXCEED VALUE (LARGER THAN 1 AND LESS THAN 0 STILL BE RECORDED AND PUBLISHED)
         return normalized
 
