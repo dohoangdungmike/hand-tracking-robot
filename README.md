@@ -6,7 +6,7 @@ Planned Improvements:
 
 
 
-ON-GOING: Use Kalman filtering for smoother frame-to-frame tracking, thereby producing clean and stable values.
+DEBUGGING: Use Kalman filtering for smoother frame-to-frame tracking, thereby producing clean and stable values.
 
 Run on a 3D hand model with servo control via Raspberry Pi GPIO
 
