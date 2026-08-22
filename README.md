@@ -12,5 +12,5 @@ Run on a 3D hand model with servo control via Raspberry Pi GPIO
 
 Send tracking data over a socket connection to a Raspberry Pi
 
-Outcome after applying the improvements:
+Outcome after applying Kalman Filter:
 <img width="1500" height="750" alt="kalman_filter_comparison" src="https://github.com/user-attachments/assets/b033d25e-c59b-4d08-9107-46b2be54cd0e" />
