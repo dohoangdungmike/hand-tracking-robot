@@ -24,7 +24,7 @@ class Robotfinger:
         self.min = min_value
 
 
-    def normalize_finger_distance_bend(self):                                                        # Function used for calculating bend value between each finger tip and base
+    def normalize_finger_distance_bend(self):                                                        # Function used for calculating RAW BEND value between each finger tip and base
                                                                                                      # Additionally, by comparing the finger bend value with the fixed bend value of the palm, the output will be more accurate 
         bend_distance = ((self.tip_x - self.base_x)**2 + (self.tip_y - self.base_y)**2) ** 0.5
         fixed_distance = ((self.base_x - self.wrist_x)**2 + (self.base_y - self.wrist_y)**2)**0.5
@@ -54,7 +54,7 @@ class Kalman_Filter:
 
         
     def predicted_next_state(self):
-        return self.former_state                         # These are all the Kalman Filter functions THAT WAS NOT USED DIRECTLY,BUT THEY WILL BE THE MAIN CONTRIBUTIONS TO THE UPDATE FUNC
+        return self.former_state                         # These are all the Kalman Filter functions THAT WERE NOT USED DIRECTLY, BUT THEY WILL BE THE MAIN CONTRIBUTIONS TO THE UPDATE FUNC
 
     def predicted_next_uncertainty(self):
         return self.former_uncertainty + self.process_noise
@@ -86,11 +86,12 @@ class Kalman_Filter:
 #client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 #client.connect((PI_IP, 9999))
 
-thumb_setup = Kalman_Filter(0.5, 1, 0.001, 0.00075)
-index_setup = Kalman_Filter(0.5, 1, 0.001, 0.00075)         # the more you increase the measurement noise the more smooth the output value it gonna be
-middle_setup = Kalman_Filter(0.5, 1, 0.001, 0.00075)
-ring_setup = Kalman_Filter(0.5, 1, 0.001, 0.00075)
-pinky_setup = Kalman_Filter(0.5, 1, 0.001, 0.00075)
+thumb_setup = Kalman_Filter(0.5, 1, 0.0001, 0.00075)
+index_setup = Kalman_Filter(0.5, 1, 0.0001, 0.00075)         # The more you increase the measurement noise, the smoother the output value it gonna be
+                                                             # More accurate estimation of the Index_bend after INCREASED THE MEASUREMENT NOISE
+middle_setup = Kalman_Filter(0.5, 1, 0.0001, 0.00075)
+ring_setup = Kalman_Filter(0.5, 1, 0.0001, 0.00075)
+pinky_setup = Kalman_Filter(0.5, 1, 0.0001, 0.00075)
 
 while True:
     ret, frame = cap.read()
@@ -116,8 +117,8 @@ while True:
 
             # Kalman Filter
 
-            update_index1 = index_setup.update(clamp1)
-
+            update_index1 = thumb_setup.update(clamp1)
+            print(f"Raw Thumb: {clamp1:.4f}  Filtered: {update_index1:.4f}")
 
             index = Robotfinger(hand_landmarks[8], hand_landmarks[5], hand_landmarks[0], 0.92, 0.02)
             bend2 = index.normalize_finger_distance_bend()
@@ -128,7 +129,7 @@ while True:
             # Kalman Filter
             
             update_index2 = index_setup.update(clamp2)
-            # print(f"Raw: {clamp2:.4f}  Filtered: {update_index2:.4f}")            This line of code can be used to compare the output value before and after using Kalman Filter
+            print(f"Raw Index: {clamp2:.4f}  Filtered: {update_index2:.4f}")            # This line of code can be used to compare the output value before and after using Kalman Filter
 
 
             middle = Robotfinger(hand_landmarks[12], hand_landmarks[9], hand_landmarks[0], 1.15, 0.002)
@@ -139,7 +140,8 @@ while True:
 
             # Kalman Filter
 
-            update_index3 = index_setup.update(clamp3)
+            update_index3 = middle_setup.update(clamp3)
+            print(f"Raw Middle: {clamp3:.4f}  Filtered: {update_index3:.4f}")
             
 
             ring = Robotfinger(hand_landmarks[16], hand_landmarks[13], hand_landmarks[0], 1.06, 0.001)
@@ -150,7 +152,8 @@ while True:
 
             # Kalman Filter
 
-            update_index4 = index_setup.update(clamp4)
+            update_index4 = ring_setup.update(clamp4)
+            print(f"Raw Ring: {clamp4:.4f}  Filtered: {update_index4:.4f}")
             
 
             pinky = Robotfinger(hand_landmarks[20], hand_landmarks[17], hand_landmarks[0], 0.95, 0.017)
@@ -161,7 +164,8 @@ while True:
 
             # Kalman Filter
 
-            update_index5 = index_setup.update(clamp5)
+            update_index5 = pinky_setup.update(clamp5)
+            print(f"Raw Pinky: {clamp5:.4f}  Filtered: {update_index5:.4f}")
 
 
             cv2.putText(frame, f"Thumb: {round(update_index1, 3)}", (50, 80), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
@@ -171,7 +175,7 @@ while True:
             cv2.putText(frame, f"Pinky: {round(update_index5, 3)}", (50, 200), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
             
-            #message = f"{clamp1},{clamp2},{clamp3},{clamp4},{clamp5}"                # Line 174 and 175 are used to send the output to 5 servo motors
+            #message = f"{clamp1},{clamp2},{clamp3},{clamp4},{clamp5}"
             #client.sendall(message.encode())
 
             
@@ -187,4 +191,4 @@ while True:
         break
 
 cap.release()
-cv2.destroyAllWindows()
+cv2.destroyAllWindows() 
