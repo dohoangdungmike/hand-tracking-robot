@@ -1,1 +1,5 @@
 ﻿scratch/
+learn.py
+__pycache__/
+*.pyc
+.vscode/
