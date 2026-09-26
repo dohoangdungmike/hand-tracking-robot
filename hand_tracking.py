@@ -123,6 +123,7 @@ while True:
             update_index1 = thumb_setup.update(clamp1)
             print(f"Raw Thumb: {clamp1:.4f}  Filtered: {update_index1:.4f}")
 
+            
             index = Robotfinger(hand_landmarks[8], hand_landmarks[5], hand_landmarks[0], 0.92, 0.02)
             bend2 = index.normalize_finger_distance_bend()
             true_value2 = index.transformation_bend(bend2)
