@@ -66,6 +66,8 @@ class Kalman_Filter:
     def update_the_next_uncertainty(self, calculate_Kalman_Gain, calculate_predicted_next_uncertainty):
         return (1 - calculate_Kalman_Gain) * calculate_predicted_next_uncertainty
 
+    
+    
     def update(self, measurement):                      # measurement will be contain the clamp value
         predicted_state = self.predicted_next_state()
         predicted_uncertainty = self.predicted_next_uncertainty()                 # Those white words act as a parameters
