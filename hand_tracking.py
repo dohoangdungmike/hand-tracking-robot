@@ -83,7 +83,6 @@ class Kalman_Filter:
 #client.connect((PI_IP, 9999))
 
 thumb_setup = Kalman_Filter(0.5, 1, 0.0001, 0.00075)
-
 index_setup = Kalman_Filter(0.5, 1, 0.0001, 0.00075)         # The more you increase the measurement noise, the smoother the output value it gonna be
                                                              # More accurate estimation of the Index_bend after INCREASED THE MEASUREMENT NOISE
 middle_setup = Kalman_Filter(0.5, 1, 0.0001, 0.00075)
