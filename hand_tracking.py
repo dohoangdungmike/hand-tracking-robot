@@ -51,10 +51,7 @@ class Kalman_Filter:
         self.process_noise = process_noise
         self.measurement_noise = measurement_noise
         
-
-        
     def predicted_next_state(self):
-
         return self.former_state                         # These are all the Kalman Filter functions THAT WERE NOT USED DIRECTLY, BUT THEY WILL BE THE MAIN CONTRIBUTIONS TO THE UPDATE FUNC
 
     def predicted_next_uncertainty(self):
@@ -68,8 +65,6 @@ class Kalman_Filter:
 
     def update_the_next_uncertainty(self, calculate_Kalman_Gain, calculate_predicted_next_uncertainty):
         return (1 - calculate_Kalman_Gain) * calculate_predicted_next_uncertainty
-
-
 
     def update(self, measurement):                      # measurement will be contain the clamp value
         predicted_state = self.predicted_next_state()
