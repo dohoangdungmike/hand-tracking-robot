@@ -57,7 +57,6 @@ class Kalman_Filter:
 
         return self.former_state                         # These are all the Kalman Filter functions THAT WERE NOT USED DIRECTLY, BUT THEY WILL BE THE MAIN CONTRIBUTIONS TO THE UPDATE FUNC
 
-
     def predicted_next_uncertainty(self):
         return self.former_uncertainty + self.process_noise
 
